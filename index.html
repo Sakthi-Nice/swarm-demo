@@ -1,0 +1,351 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Automated Swarm Workflow — Teams AI Assist</title>
+  <style>
+    :root {
+      --blue:#0066cc;--dark:#003366;--light:#e8f0fb;
+      --green:#22c55e;--amber:#f59e0b;--red:#ef4444;--purple:#7c3aed;
+      --gray:#94a3b8;--bg:#f1f5f9;--card:#ffffff;--text:#1e293b;
+      --sub:#64748b;--border:#e2e8f0;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;}
+    header{background:linear-gradient(135deg,var(--dark),var(--blue));color:white;padding:18px 32px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 12px rgba(0,0,0,.2);flex-shrink:0;}
+    header h1{font-size:1.25rem;font-weight:700;}
+    header span{font-size:.78rem;opacity:.7;display:block;margin-top:2px;}
+    .badge{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:4px 14px;font-size:.72rem;font-weight:700;letter-spacing:.5px;}
+    .progress-wrap{height:5px;background:rgba(255,255,255,.2);flex-shrink:0;}
+    .progress-fill{height:100%;background:#7dd3fc;transition:width .5s ease;width:0%;}
+    .layout{display:flex;flex:1;overflow:hidden;}
+    .sidebar{width:270px;flex-shrink:0;background:var(--card);border-right:1px solid var(--border);overflow-y:auto;padding:20px 0;}
+    .sidebar-title{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--sub);padding:0 20px 12px;}
+    .nav-step{display:flex;align-items:center;gap:12px;padding:12px 20px;cursor:pointer;border-left:3px solid transparent;transition:all .2s;}
+    .nav-step:hover{background:var(--bg);}
+    .nav-step.active{background:var(--light);border-left-color:var(--blue);}
+    .nav-step.done{border-left-color:var(--green);}
+    .nav-step.done .nav-num{background:var(--green);color:white;border-color:var(--green);}
+    .nav-step.active .nav-num{background:var(--blue);color:white;border-color:var(--blue);}
+    .nav-num{width:28px;height:28px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;border:2px solid var(--border);background:var(--bg);color:var(--sub);transition:all .3s;}
+    .nav-label{font-size:.82rem;font-weight:600;color:var(--text);line-height:1.3;}
+    .nav-step.active .nav-label{color:var(--blue);}
+    .nav-step.done   .nav-label{color:var(--sub);}
+    .nav-connector{width:2px;height:14px;background:var(--border);margin:0 0 0 33px;}
+    .nav-connector.done{background:var(--green);}
+    .detail{flex:1;overflow-y:auto;padding:32px 40px;}
+    .step-slide{display:none;animation:slideIn .35s ease;}
+    .step-slide.visible{display:block;}
+    @keyframes slideIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+    .slide-section-badge{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:3px 12px;border-radius:20px;margin-bottom:14px;}
+    .badge-input{background:#dbeafe;color:#1d4ed8;}
+    .badge-process{background:#ede9fe;color:#6d28d9;}
+    .badge-output{background:#dcfce7;color:#15803d;}
+    .slide-icon{font-size:2.4rem;margin-bottom:10px;}
+    .slide-title{font-size:1.5rem;font-weight:800;margin-bottom:8px;letter-spacing:-.3px;}
+    .slide-desc{font-size:.95rem;color:var(--sub);line-height:1.7;margin-bottom:24px;max-width:680px;}
+    .content-card{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:24px 28px;margin-bottom:20px;max-width:720px;box-shadow:0 2px 12px rgba(0,0,0,.05);}
+    .content-card-title{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--sub);margin-bottom:16px;}
+    .teams-bubble{background:linear-gradient(135deg,#4f46e5,var(--purple));color:white;border-radius:14px 14px 14px 4px;padding:20px 24px;font-size:.9rem;line-height:1.7;box-shadow:0 6px 24px rgba(79,70,229,.25);max-width:680px;margin-bottom:20px;}
+    .teams-bubble table{width:100%;border-collapse:collapse;font-size:.85rem;margin:8px 0;}
+    .teams-bubble td{padding:3px 16px 3px 0;}
+    .ai-bubble{background:#1e293b;color:#e2e8f0;border-radius:14px 14px 14px 4px;padding:20px 24px;font-size:.9rem;line-height:1.7;box-shadow:0 6px 24px rgba(0,0,0,.2);max-width:680px;margin-bottom:20px;border:1px solid #334155;}
+    .ai-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid #334155;}
+    .ai-badge{background:linear-gradient(135deg,#4f46e5,var(--purple));color:white;padding:2px 10px;border-radius:12px;font-size:.72rem;font-weight:700;letter-spacing:.5px;}
+    .sub-steps{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;}
+    .sub-step{background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:8px 16px;font-size:.85rem;color:var(--sub);font-weight:600;display:flex;align-items:center;gap:8px;}
+    .sub-step .num{width:22px;height:22px;border-radius:50%;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:800;color:var(--sub);}
+    .res-panel{display:flex;gap:14px;flex-wrap:wrap;margin-top:4px;}
+    .btn-res{padding:14px 36px;border-radius:12px;border:none;font-size:1rem;font-weight:700;cursor:pointer;transition:all .2s;}
+    .btn-yes{background:var(--green);color:white;box-shadow:0 4px 14px rgba(34,197,94,.3);}
+    .btn-yes:hover{background:#16a34a;transform:translateY(-2px);}
+    .btn-no{background:var(--red);color:white;box-shadow:0 4px 14px rgba(239,68,68,.3);}
+    .btn-no:hover{background:#dc2626;transform:translateY(-2px);}
+    .resolution-result{margin-top:20px;padding:18px 24px;border-radius:14px;font-size:.95rem;font-weight:600;display:none;}
+    .resolution-result.resolved{background:#f0fdf4;border:2px solid var(--green);color:#15803d;}
+    .resolution-result.escalated{background:#fffbeb;border:2px solid var(--amber);color:#92400e;}
+    .speaker-note{background:#fefce8;border:1.5px solid #fde047;border-radius:12px;padding:14px 20px;font-size:.82rem;color:#713f12;line-height:1.6;max-width:680px;margin-top:8px;}
+    .speaker-note strong{display:block;margin-bottom:4px;font-size:.75rem;text-transform:uppercase;letter-spacing:.5px;}
+    .bottom-nav{background:var(--card);border-top:1px solid var(--border);padding:16px 40px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+    .step-counter{font-size:.85rem;font-weight:700;color:var(--sub);}
+    .step-counter span{color:var(--blue);}
+    .nav-btns{display:flex;gap:10px;align-items:center;}
+    .btn-nav{padding:10px 24px;border-radius:10px;border:2px solid var(--border);font-size:.9rem;font-weight:700;cursor:pointer;background:var(--card);color:var(--text);transition:all .2s;}
+    .btn-nav:hover:not(:disabled){border-color:var(--blue);color:var(--blue);}
+    .btn-nav:disabled{opacity:.35;cursor:not-allowed;}
+    .btn-next{background:linear-gradient(135deg,var(--blue),#4f46e5);color:white;border-color:transparent;box-shadow:0 4px 12px rgba(0,102,204,.3);}
+    .btn-next:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 6px 18px rgba(0,102,204,.4);color:white;border-color:transparent;}
+    .btn-reset-sm{background:transparent;border:none;color:var(--sub);font-size:.8rem;cursor:pointer;padding:6px 10px;border-radius:8px;transition:all .2s;}
+    .btn-reset-sm:hover{background:var(--bg);color:var(--text);}
+    .keyboard-hint{font-size:.75rem;color:var(--gray);}
+    kbd{background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:1px 6px;font-size:.72rem;font-family:monospace;}
+  </style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>&#9889; Automated Swarm Workflow &mdash; Teams AI Assist</h1>
+    <span>ResolveIQ CX Smart AI &middot; CXone Dashboard Integration</span>
+  </div>
+  <div class="badge">AGENTIC AI DEMO</div>
+</header>
+<div class="progress-wrap"><div class="progress-fill" id="progressBar"></div></div>
+<div class="layout">
+  <!-- Sidebar -->
+  <nav class="sidebar">
+    <div class="sidebar-title">Workflow Steps</div>
+    <div class="nav-step" id="nav-1" onclick="goTo(1)"><div class="nav-num">1</div><div class="nav-label">New Swarm in Teams</div></div>
+    <div class="nav-connector" id="conn-1"></div>
+    <div class="nav-step" id="nav-2" onclick="goTo(2)"><div class="nav-num">2</div><div class="nav-label">Get Swarm Details</div></div>
+    <div class="nav-connector" id="conn-2"></div>
+    <div class="nav-step" id="nav-3" onclick="goTo(3)"><div class="nav-num">3</div><div class="nav-label">Compose Question</div></div>
+    <div class="nav-connector" id="conn-3"></div>
+    <div class="nav-step" id="nav-4" onclick="goTo(4)"><div class="nav-num">4</div><div class="nav-label">ResolveIQ AI Assist</div></div>
+    <div class="nav-connector" id="conn-4"></div>
+    <div class="nav-step" id="nav-5" onclick="goTo(5)"><div class="nav-num">5</div><div class="nav-label">Response in Teams</div></div>
+    <div class="nav-connector" id="conn-5"></div>
+    <div class="nav-step" id="nav-6" onclick="goTo(6)"><div class="nav-num">6</div><div class="nav-label">UC2: Dashboard Enablement</div></div>
+    <div class="nav-connector" id="conn-6"></div>
+    <div class="nav-step" id="nav-7" onclick="goTo(7)"><div class="nav-num">7</div><div class="nav-label">UC3: KB Q&amp;A Widget Change</div></div>
+  </nav>
+  <!-- Detail Panel -->
+  <main class="detail">
+    <!-- STEP 1 -->
+    <div class="step-slide" id="slide-1">
+      <div class="slide-section-badge badge-input">&#128229; Input</div>
+      <div class="slide-icon">&#128172;</div>
+      <div class="slide-title">New Swarm in CXone Dashboard Team</div>
+      <div class="slide-desc">A new support swarm is opened in the Microsoft Teams CXone Dashboard channel, triggering the automated workflow.</div>
+      <div class="teams-bubble">
+        <strong>&#129302; CXone WorkBot</strong><br/>
+        <strong>Swarming Session #SS044010 has started.</strong><br/>
+        Swarming Status: <span style="color:#fcd34d">Open</span><br/><br/>
+        <table>
+          <tr><td>Case#</td><td><strong>02765755</strong></td><td>Account</td><td><strong>TEMPLE &amp; WEBSTER</strong></td></tr>
+          <tr><td>Priority</td><td><strong>P3</strong></td><td>Cadebill#</td><td><strong>4606169</strong></td></tr>
+          <tr><td>Created By</td><td><strong>Anh Nguyen</strong></td><td>Cluster</td><td><strong>A34</strong></td></tr>
+        </table><br/>
+        <strong>Subject:</strong> MAX / Agent / Omnichannel Routing - Temple and Webster - Stuck Contacts<br/><br/>
+        <strong>Description:</strong> Stuck contacts aren't cleaned up with daily automatic jobs. The list is included here. It's growing daily.<br/><br/>
+        <strong>Replication Steps:</strong> Check Dashboard and found the Work Items contacts aren't listed in Active Contacts report although they are showing as InQueue.<br/><br/>
+        <strong>Troubleshooting Steps:</strong> Check and confirm the stuck contact list<br/><br/>
+        <strong>Question for Swarm:</strong> Why does daily job not clean up these stuck Work Item contacts? Can we clean up manually current list just to get customer happy while waiting for solution?<br/><br/>
+        <strong>Supporting Files:</strong> Logs will be provided in the swarm: Yes<br/>
+        <strong>Swarm Initially Acknowledged By:</strong> Shubham Barve
+      </div>
+
+    </div>
+    <!-- STEP 2 -->
+    <div class="step-slide" id="slide-2">
+      <div class="slide-section-badge badge-process">&#9881;&#65039; Processing</div>
+      <div class="slide-icon">&#128203;</div>
+      <div class="slide-title">Get Swarm Details</div>
+      <div class="slide-desc">The workflow calls the Teams API to retrieve the full message content &mdash; thread ID, sender, body, attachments, and channel context.</div>
+      <div class="content-card">
+        <div class="content-card-title">&#128225; Teams API Response (excerpt)</div>
+        <table style="width:100%;font-size:.88rem;border-collapse:collapse;">
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px 16px 8px 0;color:var(--sub);font-weight:600;width:140px">Thread ID</td><td style="padding:8px 0;font-family:monospace;font-size:.82rem">1713450765.123456</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px 16px 8px 0;color:var(--sub);font-weight:600">Channel</td><td style="padding:8px 0">CXone Dashboard Team</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px 16px 8px 0;color:var(--sub);font-weight:600">Sender</td><td style="padding:8px 0">Shubham Barve</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px 16px 8px 0;color:var(--sub);font-weight:600">Content Type</td><td style="padding:8px 0">HTML (rich text)</td></tr>
+          <tr><td style="padding:8px 16px 8px 0;color:var(--sub);font-weight:600">Attachments</td><td style="padding:8px 0">Salesforce Case Link, View Swarm Link</td></tr>
+        </table>
+      </div>
+
+    </div>
+    <!-- STEP 3 -->
+    <div class="step-slide" id="slide-3">
+      <div class="slide-section-badge badge-process">&#9881;&#65039; Processing</div>
+      <div class="slide-icon">&#128295;</div>
+      <div class="slide-title">Compose Question</div>
+      <div class="slide-desc">Before the AI can answer, the raw Teams message goes through three preparation sub-steps to extract a clean, structured question.</div>
+      <div class="content-card">
+        <div class="content-card-title">&#9881;&#65039; Sub-steps</div>
+        <div class="sub-steps">
+          <div class="sub-step"><div class="num">1</div>Convert HTML &rarr; Plain Text</div>
+          <div class="sub-step"><div class="num">2</div>Parse &amp; Extract Key Fields</div>
+          <div class="sub-step"><div class="num">3</div>Compose Question for AI</div>
+        </div>
+        <div style="margin-top:20px;padding:14px 18px;background:var(--bg);border-radius:10px;font-size:.85rem;color:var(--sub);">
+          <strong style="color:var(--text)">Composed prompt sent to AI:</strong><br/><br/>
+          <em style="color:var(--blue)">"[CXone Swarm - P3 - Cluster A34] MAX / Agent / Omnichannel Routing - Temple and Webster. Stuck contacts aren't cleaned up by daily automatic jobs. Why does the daily job not clean up stuck Work Item contacts? Can we manually clean up the current list?"</em>
+        </div>
+      </div>
+
+    </div>
+    <!-- STEP 4 -->
+    <div class="step-slide" id="slide-4">
+      <div class="slide-section-badge badge-process">&#9881;&#65039; Processing</div>
+      <div class="slide-icon">&#129302;</div>
+      <div class="slide-title">ResolveIQ CX Smart AI Assist</div>
+      <div class="slide-desc">The composed question is sent to the Skippers API. The AI searches across the knowledge base, runbooks, and historical cases to generate a response.</div>
+      <div class="content-card">
+        <div class="content-card-title">&#128269; AI Processing Pipeline</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--bg);border-radius:8px;font-size:.88rem;"><span style="font-size:1.1rem">&#128269;</span><span><strong>Knowledge Base Search</strong> &mdash; Runbooks, KBs, known issues</span></div>
+          <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--bg);border-radius:8px;font-size:.88rem;"><span style="font-size:1.1rem">&#128197;</span><span><strong>Schedule Lookup</strong> &mdash; Stuck contact cleanup job schedules per region</span></div>
+          <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--bg);border-radius:8px;font-size:.88rem;"><span style="font-size:1.1rem">&#128101;</span><span><strong>Team Routing</strong> &mdash; Identifies NRT team contacts for escalation</span></div>
+          <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:#f0fdf4;border-radius:8px;font-size:.88rem;border:1px solid #86efac;"><span style="font-size:1.1rem">&#9989;</span><span><strong>Response Generated</strong> &mdash; Confidence: High</span></div>
+        </div>
+      </div>
+
+    </div>
+    <!-- STEP 5 -->
+    <div class="step-slide" id="slide-5">
+      <div class="slide-section-badge badge-output">&#128228; Output</div>
+      <div class="slide-icon">&#128233;</div>
+      <div class="slide-title">Response from Agent in Teams</div>
+
+      <div class="content-card">
+        <div class="teams-bubble" style="margin-bottom:0">
+          <strong>&#129302; CXone WorkBot</strong><br/>
+          <strong>Swarming Session #SS044010 has started.</strong><br/>
+          Swarming Status: <span style="color:#fcd34d">Open</span><br/><br/>
+          <table>
+            <tr><td>Case#</td><td><strong>02765755</strong></td><td>Account</td><td><strong>TEMPLE &amp; WEBSTER</strong></td></tr>
+            <tr><td>Priority</td><td><strong>P3</strong></td><td>Cadebill#</td><td><strong>4606169</strong></td></tr>
+            <tr><td>Created By</td><td><strong>Anh Nguyen</strong></td><td>Cluster</td><td><strong>A34</strong></td></tr>
+          </table><br/>
+          <strong>Subject:</strong> MAX / Agent / Omnichannel Routing - Temple and Webster - Stuck Contacts<br/><br/>
+          <strong>Question for Swarm:</strong> Why does daily job not clean up these stuck Work Item contacts? Can we clean up manually current list just to get customer happy while waiting for solution?
+        </div>
+      </div>
+
+      <div class="content-card">
+        <div class="ai-bubble" style="margin-bottom:0">
+          <div class="ai-header"><span style="font-size:1.1rem">&#129302;</span><strong>Workflows</strong></div>
+          <span style="background:#fcd34d;color:#1e293b;padding:2px 8px;border-radius:4px;font-weight:700;font-size:.85rem">Stuck</span>
+          Contact cleanup is scheduled for today at below regions. Please verify after the scheduled run is completed. If the issue still persists, kindly reach out to the NRT team
+          (<strong>Sunil Madekar, Deepak Singhal, Tejaswini Phad</strong>) for further resolution.<br/><br/>
+          <strong>AE1</strong> &nbsp;Scheduled (UTC): 01:00 &middot; (India Time): 06:30 &middot; (MST): 18:00 prev day<br/>
+          <strong>AU1</strong> &nbsp;Scheduled (UTC): 20:00 &middot; (India Time): 01:30 next day &middot; (MST): 13:00<br/>
+          <strong>AUSOV1</strong> &nbsp;Scheduled (UTC): 20:00 &middot; (India Time): 01:30 next day &middot; (MST): 13:00<br/>
+          <strong>CA1</strong> &nbsp;Scheduled (UTC): 12:00 &middot; (India Time): 17:30 &middot; (MST): 05:00<br/><br/>
+          <span style="color:#fca5a5;font-weight:700">Did this resolve your issue? (Yes / No):</span>
+        </div>
+      </div>
+
+
+    </div>
+    <!-- STEP 6 -->
+    <div class="step-slide" id="slide-6">
+      <div class="slide-section-badge badge-input">&#128229; Use Case 2</div>
+      <div class="slide-icon">&#128187;</div>
+      <div class="slide-title">Dashboard Enablement Request</div>
+      <div class="slide-desc">A customer requests the new CXone Dashboards to be enabled on their account. The AI responds with a routing recommendation based on the case subject.</div>
+
+      <div class="content-card">
+        <div class="content-card-title">&#128172; Incoming Swarm &mdash; Teams Message</div>
+        <div class="teams-bubble" style="margin-bottom:0">
+          <strong>&#129302; CXone WorkBot</strong><br/>
+          <strong style="color:#86efac">Swarming Session #SS044440 has ended.</strong><br/>
+          Swarming Status: <span style="color:#86efac">Closed</span><br/><br/>
+          <table>
+            <tr><td>Case#</td><td><strong>02773642</strong></td><td>Account</td><td><strong>NYS DEPT OF LABOR<br/>NYS DOL CONTACT CENTER</strong></td></tr>
+            <tr><td>Priority</td><td><strong>P3</strong></td><td>Cadebill#</td><td><strong>4597665</strong></td></tr>
+            <tr><td>Created By</td><td><strong>Kaleb Brown</strong></td><td>Cluster</td><td><strong>C29</strong></td></tr>
+          </table><br/>
+          <strong>Subject:</strong> Customer Dashboard Enablement<br/><br/>
+          <strong>Description:</strong> Requesting to have the new CXone Dashboards enabled for customer NYS DEPT OF LABOR NYS DOL CONTACT CENTER BU 4594808. New dashboards are required to see metrics and reporting for DX contacts.<br/><br/>
+          <em style="opacity:.8">The Dashboard (New) is already enabled on the account. Swarming to complete the process outlined in KB 000050129.</em>
+        </div>
+      </div>
+
+      <div class="content-card">
+        <div class="content-card-title">&#129302; AI-Generated Response</div>
+        <div class="ai-bubble" style="margin-bottom:0">
+          <div class="ai-header"><span style="font-size:1.1rem">&#129302;</span><strong>Workflows</strong><div class="ai-badge">AI-GENERATED</div></div>
+          This is an automated <strong>AI-generated</strong> response!<br/><br/>
+          Based on the case subject &ldquo;Customer Dashboard Enablement&rdquo;, this appears to be an issue related to enabling or configuring the CXone Dashboard for a customer. You should reach out to the team that handles CXone Dashboard requests for customers.
+        </div>
+      </div>
+
+    </div>
+    <!-- STEP 7 -->
+    <div class="step-slide" id="slide-7">
+      <div class="slide-section-badge badge-process">&#128218; Confluence KB Q&amp;A</div>
+      <div class="slide-icon">&#128269;</div>
+      <div class="slide-title">Use Case 3 &mdash; Widget Behaviour Change</div>
+      <div class="slide-desc">A user asks about a widget difference they noticed after migrating from User Hub to CX Dashboard. The AI answers directly from the Confluence knowledge base.</div>
+
+      <div class="content-card">
+        <div class="content-card-title">&#128172; User Question</div>
+        <div class="teams-bubble" style="margin-bottom:0">
+          &ldquo;In User Hub I see <strong>one widget</strong> for Calibration, however it is <strong>two</strong> in CX Dashboard. Can you explain the behaviour?&rdquo;
+        </div>
+      </div>
+
+      <div class="content-card">
+        <div class="content-card-title">&#129302; AI-Generated Response</div>
+        <div class="ai-bubble" style="margin-bottom:0">
+        <div class="ai-header"><span style="font-size:1.1rem">&#129302;</span><strong>ResolveIQ AI</strong><div class="ai-badge">KB ANSWER</div></div>
+        The Calibration widget was <strong>redesigned</strong> in CX Dashboard. The original single widget (UH) was not time-bound and showed only the last 10 calibrations.<br/><br/>
+        It has been <strong>replaced by two new widgets</strong>:
+        <div style="margin-top:12px;display:flex;flex-direction:column;gap:10px;">
+          <div style="background:rgba(255,255,255,0.1);border-radius:10px;padding:12px 16px;">
+            <strong>1. Evaluators Calibration</strong><br/>
+            Shows variance of evaluators across all calibrations they participated in, within the selected duration. Automatically surfaces the <strong>6 evaluators with the highest variance</strong>.
+          </div>
+          <div style="background:rgba(255,255,255,0.1);border-radius:10px;padding:12px 16px;">
+            <strong>2. Forms Calibration</strong><br/>
+            Same as above, but grouped by <strong>form</strong> instead of evaluator.
+          </div>
+        </div>
+        <div style="margin-top:12px;padding:10px 14px;background:rgba(255,255,255,0.08);border-radius:8px;font-size:.85rem;">
+          <strong>Configurable duration:</strong> Last 7 / 30 / 90 days &middot; Custom range (up to 90 days) &middot; Default: last 90 days
+        </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+<!-- Bottom Nav -->
+<div class="bottom-nav">
+  <div style="display:flex;align-items:center;gap:16px;">
+    <div class="step-counter">Step <span id="stepNum">1</span> of 7</div>
+    <button class="btn-reset-sm" onclick="goTo(1)">&#8635; Restart</button>
+  </div>
+  <div class="nav-btns">
+    <span class="keyboard-hint"><kbd>Enter</kbd> <kbd>Space</kbd> next &nbsp; <kbd>&larr;</kbd> back</span>
+    <button class="btn-nav" id="btnPrev" onclick="prev()" disabled>&larr; Back</button>
+    <button class="btn-nav btn-next" id="btnNext" onclick="next()">Next &rarr;</button>
+  </div>
+</div>
+<script>
+  const TOTAL=7;let current=1;
+  const progress={1:14,2:28,3:42,4:57,5:71,6:85,7:100};
+  function goTo(n){
+    if(n<1||n>TOTAL)return;
+    document.getElementById('slide-'+current).classList.remove('visible');
+    for(let i=1;i<=TOTAL;i++){
+      const nav=document.getElementById('nav-'+i);
+      const conn=document.getElementById('conn-'+i);
+      nav.classList.remove('active','done');
+      if(conn)conn.classList.remove('done');
+      if(i<n){nav.classList.add('done');if(conn)conn.classList.add('done');}
+    }
+    current=n;
+    document.getElementById('nav-'+current).classList.add('active');
+    document.getElementById('slide-'+current).classList.add('visible');
+    document.getElementById('stepNum').textContent=current;
+    document.getElementById('progressBar').style.width=progress[current]+'%';
+    document.getElementById('btnPrev').disabled=(current===1);
+    document.getElementById('btnNext').disabled=(current===TOTAL);
+    document.getElementById('btnNext').textContent=current===TOTAL?'Done \u2713':'Next \u2192';
+  }
+  function next(){if(current<TOTAL)goTo(current+1);}
+  function prev(){if(current>1)goTo(current-1);}
+  function simulateResolve(a){
+    document.getElementById('res-yes').style.display=a==='yes'?'block':'none';
+    document.getElementById('res-no').style.display=a==='no'?'block':'none';
+  }
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight'||e.key==='ArrowDown'||e.key==='Enter'||e.key===' ')next();
+    if(e.key==='ArrowLeft'||e.key==='ArrowUp'||e.key==='Backspace')prev();
+  });
+  goTo(1);
+</script>
+</body>
+</html>
