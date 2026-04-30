@@ -95,24 +95,81 @@
   <!-- Sidebar -->
   <nav class="sidebar">
     <div class="sidebar-title">Workflow Steps</div>
-    <div class="nav-step" id="nav-1" onclick="goTo(1)"><div class="nav-num">1</div><div class="nav-label">New Swarm in Teams</div></div>
+    <div class="nav-step" id="nav-1" onclick="goTo(1)"><div class="nav-num">1</div><div class="nav-label">Title</div></div>
     <div class="nav-connector" id="conn-1"></div>
-    <div class="nav-step" id="nav-2" onclick="goTo(2)"><div class="nav-num">2</div><div class="nav-label">Get Swarm Details</div></div>
+    <div class="nav-step" id="nav-2" onclick="goTo(2)"><div class="nav-num">2</div><div class="nav-label">Introduction</div></div>
     <div class="nav-connector" id="conn-2"></div>
-    <div class="nav-step" id="nav-3" onclick="goTo(3)"><div class="nav-num">3</div><div class="nav-label">Compose Question</div></div>
+    <div class="nav-step" id="nav-3" onclick="goTo(3)"><div class="nav-num">3</div><div class="nav-label">New Swarm in Teams</div></div>
     <div class="nav-connector" id="conn-3"></div>
-    <div class="nav-step" id="nav-4" onclick="goTo(4)"><div class="nav-num">4</div><div class="nav-label">ResolveIQ AI Assist</div></div>
+    <div class="nav-step" id="nav-4" onclick="goTo(4)"><div class="nav-num">4</div><div class="nav-label">Get Swarm Details</div></div>
     <div class="nav-connector" id="conn-4"></div>
-    <div class="nav-step" id="nav-5" onclick="goTo(5)"><div class="nav-num">5</div><div class="nav-label">Response in Teams</div></div>
+    <div class="nav-step" id="nav-5" onclick="goTo(5)"><div class="nav-num">5</div><div class="nav-label">Compose Question</div></div>
     <div class="nav-connector" id="conn-5"></div>
-    <div class="nav-step" id="nav-6" onclick="goTo(6)"><div class="nav-num">6</div><div class="nav-label">UC2: Dashboard Enablement</div></div>
+    <div class="nav-step" id="nav-6" onclick="goTo(6)"><div class="nav-num">6</div><div class="nav-label">ResolveIQ AI Assist</div></div>
     <div class="nav-connector" id="conn-6"></div>
-    <div class="nav-step" id="nav-7" onclick="goTo(7)"><div class="nav-num">7</div><div class="nav-label">UC3: KB Q&amp;A Widget Change</div></div>
+    <div class="nav-step" id="nav-7" onclick="goTo(7)"><div class="nav-num">7</div><div class="nav-label">Response in Teams</div></div>
+    <div class="nav-connector" id="conn-7"></div>
+    <div class="nav-step" id="nav-8" onclick="goTo(8)"><div class="nav-num">8</div><div class="nav-label">UC2: Dashboard Enablement</div></div>
+    <div class="nav-connector" id="conn-8"></div>
+    <div class="nav-step" id="nav-9" onclick="goTo(9)"><div class="nav-num">9</div><div class="nav-label">UC3: KB Q&amp;A Widget Change</div></div>
+    <div class="nav-connector" id="conn-9"></div>
+    <div class="nav-step" id="nav-10" onclick="goTo(10)"><div class="nav-num">10</div><div class="nav-label">Live Demo</div></div>
+    <div class="nav-connector" id="conn-10"></div>
+    <div class="nav-step" id="nav-11" onclick="goTo(11)"><div class="nav-num">11</div><div class="nav-label">Business Impact</div></div>
   </nav>
   <!-- Detail Panel -->
   <main class="detail">
-    <!-- STEP 1 -->
+    <!-- TITLE -->
     <div class="step-slide" id="slide-1">
+      <div style="min-height:480px;background:linear-gradient(135deg,#a78bfa,#ec4899,#f97316,#60a5fa);border-radius:20px;display:flex;align-items:stretch;overflow:hidden;max-width:860px;">
+        <!-- Left panel -->
+        <div style="flex:1;padding:48px 40px;display:flex;flex-direction:column;justify-content:space-between;">
+          <div>
+            <div style="font-size:1.1rem;font-weight:700;color:#1e293b;margin-bottom:4px;">Create a</div>
+            <div style="font-size:3.2rem;font-weight:900;color:#1e293b;letter-spacing:-1px;line-height:1;">NiCE<span style="color:#1e293b;">.</span><span style="color:#1e293b;">.</span></div>
+            <div style="font-size:1.5rem;font-weight:700;color:#1e293b;margin-bottom:32px;">world &#57803;</div>
+            <div style="display:flex;flex-direction:column;gap:10px;">
+              <div style="background:rgba(255,255,255,0.55);border-radius:20px;padding:8px 20px;font-size:.9rem;font-weight:600;color:#1e293b;display:inline-block;width:fit-content;">Seamless, connected, personal</div>
+              <div style="background:rgba(255,255,255,0.4);border-radius:20px;padding:8px 20px;font-size:.9rem;font-weight:600;color:#1e293b;display:inline-block;width:fit-content;margin-left:20px;">No matter where, or how</div>
+              <div style="background:#1e293b;border-radius:20px;padding:8px 20px;font-size:.9rem;font-weight:700;color:white;display:inline-flex;align-items:center;gap:8px;width:fit-content;margin-left:40px;">That&rsquo;s so NiCE &#129303;</div>
+            </div>
+          </div>
+          <div style="font-size:1rem;font-weight:800;color:#1e293b;letter-spacing:1px;margin-top:32px;">NiCE</div>
+        </div>
+        <!-- Right panel -->
+        <div style="width:320px;background:rgba(60,40,80,0.55);display:flex;align-items:center;justify-content:center;padding:40px 32px;border-radius:0 20px 20px 0;">
+          <div style="color:white;">
+            <div style="font-size:1.9rem;font-weight:800;line-height:1.2;">Automated Swarm Workflow&mdash; Teams AI Assist</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- INTRO -->
+    <div class="step-slide" id="slide-2">
+      <div class="slide-section-badge badge-input">&#128203; Overview</div>
+      <div class="slide-icon">&#9889;</div>
+      <div class="slide-title">Automated Swarm Workflow &mdash; Teams AI Assist</div>
+      <div class="slide-desc">ResolveIQ CX Smart AI &middot; CXone Dashboard Integration</div>
+      <div class="content-card">
+        <div class="content-card-title">&#9881;&#65039; How it works</div>
+        <table style="width:100%;font-size:.9rem;border-collapse:collapse;">
+          <tr style="border-bottom:1px solid var(--border)">
+            <td style="padding:12px 16px 12px 0;color:var(--sub);font-weight:700;width:130px">&#9889; Trigger</td>
+            <td style="padding:12px 0">A new swarm is posted in the CXone Dashboard Teams channel</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border)">
+            <td style="padding:12px 16px 12px 0;color:var(--sub);font-weight:700">&#129302; AI Engine</td>
+            <td style="padding:12px 0">ResolveIQ CX Smart AI (Skippers API) searches runbooks, KBs &amp; historical cases</td>
+          </tr>
+          <tr>
+            <td style="padding:12px 16px 12px 0;color:var(--sub);font-weight:700">&#128233; Response</td>
+            <td style="padding:12px 0">A structured answer is posted back in-thread within seconds</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <!-- STEP 3 -->
+    <div class="step-slide" id="slide-3">
       <div class="slide-section-badge badge-input">&#128229; Input</div>
       <div class="slide-icon">&#128172;</div>
       <div class="slide-title">New Swarm in CXone Dashboard Team</div>
@@ -136,8 +193,8 @@
       </div>
 
     </div>
-    <!-- STEP 2 -->
-    <div class="step-slide" id="slide-2">
+    <!-- STEP 4 -->
+    <div class="step-slide" id="slide-4">
       <div class="slide-section-badge badge-process">&#9881;&#65039; Processing</div>
       <div class="slide-icon">&#128203;</div>
       <div class="slide-title">Get Swarm Details</div>
@@ -154,8 +211,8 @@
       </div>
 
     </div>
-    <!-- STEP 3 -->
-    <div class="step-slide" id="slide-3">
+    <!-- STEP 5 -->
+    <div class="step-slide" id="slide-5">
       <div class="slide-section-badge badge-process">&#9881;&#65039; Processing</div>
       <div class="slide-icon">&#128295;</div>
       <div class="slide-title">Compose Question</div>
@@ -168,14 +225,14 @@
           <div class="sub-step"><div class="num">3</div>Compose Question for AI</div>
         </div>
         <div style="margin-top:20px;padding:14px 18px;background:var(--bg);border-radius:10px;font-size:.85rem;color:var(--sub);">
-          <strong style="color:var(--text)">Composed prompt sent to AI:</strong><br/><br/>
-          <em style="color:var(--blue)">"[CXone Swarm - P3 - Cluster A34] MAX / Agent / Omnichannel Routing - Temple and Webster. Stuck contacts aren't cleaned up by daily automatic jobs. Why does the daily job not clean up stuck Work Item contacts? Can we manually clean up the current list?"</em>
+          <strong style="color:var(--text)">Question Prompt for Stuck Contact:</strong><br/><br/>
+          <em style="color:var(--blue)">&quot;Share Stuck Contact cleanup scheduled for today at cluster {Cluster Name}. Please verify after the run.&quot;</em>
         </div>
       </div>
 
     </div>
-    <!-- STEP 4 -->
-    <div class="step-slide" id="slide-4">
+    <!-- STEP 6 -->
+    <div class="step-slide" id="slide-6">
       <div class="slide-section-badge badge-process">&#9881;&#65039; Processing</div>
       <div class="slide-icon">&#129302;</div>
       <div class="slide-title">ResolveIQ CX Smart AI Assist</div>
@@ -191,8 +248,8 @@
       </div>
 
     </div>
-    <!-- STEP 5 -->
-    <div class="step-slide" id="slide-5">
+    <!-- STEP 7 -->
+    <div class="step-slide" id="slide-7">
       <div class="slide-section-badge badge-output">&#128228; Output</div>
       <div class="slide-icon">&#128233;</div>
       <div class="slide-title">Response from Agent in Teams</div>
@@ -215,21 +272,22 @@
       <div class="content-card">
         <div class="ai-bubble" style="margin-bottom:0">
           <div class="ai-header"><span style="font-size:1.1rem">&#129302;</span><strong>Workflows</strong></div>
-          <span style="background:#fcd34d;color:#1e293b;padding:2px 8px;border-radius:4px;font-weight:700;font-size:.85rem">Stuck</span>
-          Contact cleanup is scheduled for today at below regions. Please verify after the scheduled run is completed. If the issue still persists, kindly reach out to the NRT team
-          (<strong>Sunil Madekar, Deepak Singhal, Tejaswini Phad</strong>) for further resolution.<br/><br/>
-          <strong>AE1</strong> &nbsp;Scheduled (UTC): 01:00 &middot; (India Time): 06:30 &middot; (MST): 18:00 prev day<br/>
-          <strong>AU1</strong> &nbsp;Scheduled (UTC): 20:00 &middot; (India Time): 01:30 next day &middot; (MST): 13:00<br/>
-          <strong>AUSOV1</strong> &nbsp;Scheduled (UTC): 20:00 &middot; (India Time): 01:30 next day &middot; (MST): 13:00<br/>
-          <strong>CA1</strong> &nbsp;Scheduled (UTC): 12:00 &middot; (India Time): 17:30 &middot; (MST): 05:00<br/><br/>
-          <span style="color:#fca5a5;font-weight:700">Did this resolve your issue? (Yes / No):</span>
+          This is an automated <strong>AI-generated</strong> response!<br/><br/>
+          For cluster <strong>AE26</strong>, the stuck contact cleanup is scheduled as follows:<br/>
+          <strong>AE1 (UAE)</strong>
+          <ul style="margin:8px 0 12px 20px;line-height:1.9;">
+            <li>Scheduled (UTC): 01:00</li>
+            <li>Scheduled (India Time): 06:30</li>
+            <li>Scheduled (MST): 18:00 (previous day)</li>
+          </ul>
+          Please verify after the scheduled run is completed. If the issue still persists, kindly reach out to the NRT team (<strong>Sunil Madekar, Deepak Singhal, Tejaswini Phad</strong>) for further resolution.
         </div>
       </div>
 
 
     </div>
-    <!-- STEP 6 -->
-    <div class="step-slide" id="slide-6">
+    <!-- STEP 8 -->
+    <div class="step-slide" id="slide-8">
       <div class="slide-section-badge badge-input">&#128229; Use Case 2</div>
       <div class="slide-icon">&#128187;</div>
       <div class="slide-title">Dashboard Enablement Request</div>
@@ -257,13 +315,13 @@
         <div class="ai-bubble" style="margin-bottom:0">
           <div class="ai-header"><span style="font-size:1.1rem">&#129302;</span><strong>Workflows</strong><div class="ai-badge">AI-GENERATED</div></div>
           This is an automated <strong>AI-generated</strong> response!<br/><br/>
-          Based on the case subject &ldquo;Customer Dashboard Enablement&rdquo;, this appears to be an issue related to enabling or configuring the CXone Dashboard for a customer. You should reach out to the team that handles CXone Dashboard requests for customers.
+          For Dashboard Enablement, you should reach out to the <strong>Implementations Team</strong>, specifically <strong>Lissette Coto Tolosa&rsquo;s Team</strong>. Before contacting the Implementations Team, you need to generate or retrieve the <strong>Access Key ID</strong> and <strong>Secret Key</strong> credentials for the user <strong>dashboard_acd_integration_@nice.com</strong>. These credentials are required for the Dashboard enablement process.
         </div>
       </div>
 
     </div>
-    <!-- STEP 7 -->
-    <div class="step-slide" id="slide-7">
+    <!-- STEP 9 -->
+    <div class="step-slide" id="slide-9">
       <div class="slide-section-badge badge-process">&#128218; Confluence KB Q&amp;A</div>
       <div class="slide-icon">&#128269;</div>
       <div class="slide-title">Use Case 3 &mdash; Widget Behaviour Change</div>
@@ -299,12 +357,71 @@
       </div>
 
     </div>
+    <!-- STEP 10 -->
+    <div class="step-slide" id="slide-10">
+      <div class="slide-section-badge badge-process">&#127909; Live Demo</div>
+      <div class="slide-icon">&#127909;</div>
+      <div class="slide-title">Live Demo</div>
+      <div class="slide-desc">Switch over to the actual live demo, then return to this presentation to wrap up.</div>
+      <div class="content-card" style="max-width:500px;text-align:center;padding:40px 28px;">
+        <div style="font-size:3rem;margin-bottom:16px;">&#128640;</div>
+        <div style="font-size:1.1rem;font-weight:700;margin-bottom:8px;">Time to see it in action!</div>
+        <div style="font-size:.9rem;color:var(--sub);line-height:1.7;">Open the live Teams workflow and walk through a real swarm. Come back to <strong>slide 11</strong> when done to review the business impact.</div>
+      </div>
+    </div>
+    <!-- STEP 11 -->
+    <div class="step-slide" id="slide-11">
+      <div class="slide-section-badge badge-output">&#128200; Business Impact</div>
+      <div class="slide-icon">&#128200;</div>
+      <div class="slide-title">Business Impact</div>
+      <div class="slide-desc">Measurable outcomes delivered today &mdash; and the significant value ahead with Use Case 3.</div>
+      <div class="content-card">
+        <div class="content-card-title">&#9989; Use Cases 1, 2 &amp; 3 &mdash; Live in Production</div>
+        <p style="font-size:.9rem;color:var(--sub);margin-bottom:16px;">The automated swarm workflow currently handles three recurring request types:</p>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px;">
+          <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--bg);border-radius:8px;font-size:.88rem;">
+            <span style="font-size:1.1rem">&#128187;</span>
+            <span><strong>New Dashboard Implementation</strong> &mdash; Routing and guidance for enabling CXone Dashboards on customer accounts</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--bg);border-radius:8px;font-size:.88rem;">
+            <span style="font-size:1.1rem">&#128336;</span>
+            <span><strong>Timezone Addition</strong> &mdash; Automated responses for timezone configuration requests</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--bg);border-radius:8px;font-size:.88rem;">
+            <span style="font-size:1.1rem">&#128204;</span>
+            <span><strong>Stuck Contact Clean-ups</strong> &mdash; Identifying cleanup schedules and escalation paths for stuck contacts</span>
+          </div>
+        </div>
+        <div style="background:#f0fdf4;border:2px solid var(--green);border-radius:12px;padding:16px 20px;display:flex;align-items:center;gap:16px;">
+          <div style="font-size:2rem;font-weight:800;color:var(--green)">~15%</div>
+          <div style="font-size:.9rem;color:#166534;">of total swarm cases are automatically deflected, reducing manual triage effort for the support team</div>
+        </div>
+      </div>
+      <div class="content-card">
+        <div class="content-card-title">&#128640; Use Case 4 &mdash; Future Use Case (High Impact)</div>
+        <p style="font-size:.9rem;color:var(--sub);margin-bottom:16px;">AI-powered Q&amp;A for New Dashboard behaviour, covering the transition from <strong>User Hub (UH)</strong> and <strong>MicroStrategy (MSTR)</strong> dashboards to the new CXone Dashboard.</p>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px;">
+          <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--bg);border-radius:8px;font-size:.88rem;">
+            <span style="font-size:1.1rem">&#128269;</span>
+            <span>Targets post-enablement questions from customers migrating to the new platform</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--bg);border-radius:8px;font-size:.88rem;">
+            <span style="font-size:1.1rem">&#128202;</span>
+            <span>Proactively addresses common behavioural differences (e.g. widget changes, metric availability) before they become support cases</span>
+          </div>
+        </div>
+        <div style="background:#eff6ff;border:2px solid var(--blue);border-radius:12px;padding:16px 20px;display:flex;align-items:center;gap:16px;">
+          <div style="font-size:2rem;font-weight:800;color:var(--blue)">~4,000</div>
+          <div style="font-size:.9rem;color:#1e40af;">tenants targeted during the CXone Dashboard migration rollout, delivering significant deflection value at scale</div>
+        </div>
+      </div>
+    </div>
   </main>
 </div>
 <!-- Bottom Nav -->
 <div class="bottom-nav">
   <div style="display:flex;align-items:center;gap:16px;">
-    <div class="step-counter">Step <span id="stepNum">1</span> of 7</div>
+    <div class="step-counter">Step <span id="stepNum">1</span> of 11</div>
     <button class="btn-reset-sm" onclick="goTo(1)">&#8635; Restart</button>
   </div>
   <div class="nav-btns">
@@ -314,8 +431,8 @@
   </div>
 </div>
 <script>
-  const TOTAL=7;let current=1;
-  const progress={1:14,2:28,3:42,4:57,5:71,6:85,7:100};
+  const TOTAL=11;let current=1;
+  const progress={1:9,2:18,3:27,4:36,5:45,6:55,7:64,8:73,9:82,10:91,11:100};
   function goTo(n){
     if(n<1||n>TOTAL)return;
     document.getElementById('slide-'+current).classList.remove('visible');
